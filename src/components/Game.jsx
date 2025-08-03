@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { createDeck, drawCard } from "../utils/Deck";
 import {
-  calculateScore,
-  isBust,
-  determineWinner
+  calculatePoints,
+  formatCard
 } from "../utils/helpers";
-
-function formatCard(card) {
-  return `${card.value}${card.suit}`;
-}
+import { generateDeck, shuffleDeck, drawCard } from "../utils/Deck";
 
 function Game() {
   const [deck, setDeck] = useState([]);
@@ -20,15 +15,16 @@ function Game() {
   const [message, setMessage] = useState("");
 
   const startGame = () => {
-    const newDeck = createDeck(); // Crear mazo
+    const newDeck = shuffleDeck(generateDeck());
+
     const playerInitial = [drawCard(newDeck), drawCard(newDeck)];
     const dealerInitial = [drawCard(newDeck)];
 
     setDeck(newDeck);
     setPlayerHand(playerInitial);
     setDealerHand(dealerInitial);
-    setPlayerPoints(calculateScore(playerInitial));
-    setDealerPoints(calculateScore(dealerInitial));
+    setPlayerPoints(calculatePoints(playerInitial));
+    setDealerPoints(calculatePoints(dealerInitial));
     setGameOver(false);
     setMessage("");
   };
@@ -39,7 +35,7 @@ function Game() {
     const newDeck = [...deck];
     const newCard = drawCard(newDeck);
     const newHand = [...playerHand, newCard];
-    const newPoints = calculateScore(newHand);
+    const newPoints = calculatePoints(newHand);
 
     setDeck(newDeck);
     setPlayerHand(newHand);
@@ -52,43 +48,36 @@ function Game() {
 
   const stand = () => {
     if (gameOver) return;
-
     let newDeck = [...deck];
     let newDealerHand = [...dealerHand];
 
-    while (calculateScore(newDealerHand) < 17) {
+    while (calculatePoints(newDealerHand) < 17) {
       const newCard = drawCard(newDeck);
       newDealerHand.push(newCard);
     }
 
-    const dealerFinalPoints = calculateScore(newDealerHand);
+    const dealerFinalPoints = calculatePoints(newDealerHand);
+
     setDealerHand(newDealerHand);
     setDealerPoints(dealerFinalPoints);
     endGame(playerHand, newDealerHand, newDeck, false);
   };
 
-  const endGame = (player, dealer, updatedDeck, isBustFlag) => {
-    const winner = determineWinner(player, dealer);
+  const endGame = (player, dealer, updatedDeck, isBust) => {
+    const playerPts = calculatePoints(player);
+    const dealerPts = calculatePoints(dealer);
 
     setDeck(updatedDeck);
     setGameOver(true);
 
-    if (isBustFlag) {
+    if (isBust) {
       setMessage("¡Te pasaste de 21! Pierdes.");
+    } else if (dealerPts > 21 || playerPts > dealerPts) {
+      setMessage("¡Ganaste!");
+    } else if (playerPts < dealerPts) {
+      setMessage("Perdiste.");
     } else {
-      switch (winner) {
-        case "player":
-          setMessage("¡Ganaste! 🎉");
-          break;
-        case "dealer":
-          setMessage("Perdiste. 😢");
-          break;
-        case "draw":
-          setMessage("Empate. 🤝");
-          break;
-        default:
-          setMessage("Error.");
-      }
+      setMessage("Empate.");
     }
   };
 
@@ -102,7 +91,7 @@ function Game() {
 
       <div>
         <h2 className="text-2xl font-semibold">Tu mano:</h2>
-        <p>{playerHand.map(formatCard).join(" ")}</p>
+        <p>{playerHand.map(formatCard).join(", ")}</p>
         <p>Puntos: {playerPoints}</p>
       </div>
 
@@ -110,19 +99,19 @@ function Game() {
         <h2 className="text-2xl font-semibold">Dealer:</h2>
         {gameOver ? (
           <>
-            <p>{dealerHand.map(formatCard).join(" ")}</p>
+            <p>{dealerHand.map(formatCard).join(", ")}</p>
             <p>Puntos: {dealerPoints}</p>
           </>
         ) : (
           <>
-            <p>{dealerHand[0] ? formatCard(dealerHand[0]) : "?"} ???</p>
+            <p>{dealerHand[0] ? formatCard(dealerHand[0]) : "???"}, ???</p>
             <p>Puntos: ???</p>
           </>
         )}
       </div>
 
       <div className="space-x-4">
-        {!gameOver && (
+        {!gameOver ? (
           <>
             <button
               onClick={hit}
@@ -137,8 +126,7 @@ function Game() {
               Plantarse
             </button>
           </>
-        )}
-        {gameOver && (
+        ) : (
           <button
             onClick={startGame}
             className="bg-green-500 hover:bg-green-700 px-4 py-2 rounded"
