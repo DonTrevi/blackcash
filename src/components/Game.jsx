@@ -124,13 +124,13 @@ function Game() {
           <>
             <button
               onClick={hit}
-              className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+              className="btn"
             >
               Pedir carta
             </button>
             <button
               onClick={stand}
-              className="bg-yellow-500 hover:bg-yellow-700 px-4 py-2 rounded"
+              className="btn"
             >
               Plantarse
             </button>
@@ -138,7 +138,7 @@ function Game() {
         ) : (
           <button
             onClick={startGame}
-            className="bg-green-500 hover:bg-green-700 px-4 py-2 rounded"
+            className="btn"
           >
             Jugar otra vez
           </button>
@@ -147,7 +147,7 @@ function Game() {
         {/* Botón salir (siempre visible) */}
         <button
           onClick={handleSalir}
-          className="bg-black hover:bg-gray-800 text-gold border-2 border-gold px-4 py-2 rounded"
+          className="btn-exit"
           style={{
             color: "#FFD700",
             borderColor: "#FFD700"

@@ -17,8 +17,8 @@ function Home() {
     <div className="home-container">
       <h1 className="home-title">Bienvenido a BlackCa$h. Disfrute su estadía.</h1>
       <div className="button-group">
-        <button className="home-button" onClick={handlePlay}>Jugar</button>
-        <button className="home-button" onClick={handleInstructions}>Instrucciones</button>
+        <button className="btn" onClick={handlePlay}>Jugar</button>
+        <button className="btn" onClick={handleInstructions}>Instrucciones</button>
       </div>
     </div>
   );
