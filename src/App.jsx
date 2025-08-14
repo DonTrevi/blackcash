@@ -1,11 +1,15 @@
-import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import Game from "./components/Game";
 
 function App() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center">
-      <Game />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+    </Router>
   );
 }
 

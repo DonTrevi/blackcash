@@ -1,4 +1,7 @@
+// src/components/Game.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   calculatePoints,
   formatCard
@@ -6,6 +9,8 @@ import {
 import { generateDeck, shuffleDeck, drawCard } from "../utils/Deck";
 
 function Game() {
+  const navigate = useNavigate();
+
   const [deck, setDeck] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerHand, setDealerHand] = useState([]);
@@ -81,13 +86,17 @@ function Game() {
     }
   };
 
+  const handleSalir = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     startGame();
   }, []);
 
   return (
     <div className="text-center p-4 space-y-6 bg-green-700 text-white min-h-screen">
-      <h1 className="text-4xl font-bold">BlackCash 🃏</h1>
+      <h1 className="text-4xl font-bold">BlackCa$h 🃏</h1>
 
       <div>
         <h2 className="text-2xl font-semibold">Tu mano:</h2>
@@ -134,6 +143,18 @@ function Game() {
             Jugar otra vez
           </button>
         )}
+
+        {/* Botón salir (siempre visible) */}
+        <button
+          onClick={handleSalir}
+          className="bg-black hover:bg-gray-800 text-gold border-2 border-gold px-4 py-2 rounded"
+          style={{
+            color: "#FFD700",
+            borderColor: "#FFD700"
+          }}
+        >
+          Salir
+        </button>
       </div>
 
       {message && <p className="text-xl font-bold">{message}</p>}
