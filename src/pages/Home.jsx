@@ -1,27 +1,23 @@
-// src/Home.jsx
-import { useNavigate } from "react-router-dom";
-import "../styles/Home.css";
+import { Link } from "react-router-dom";
 
-function Home() {
-  const navigate = useNavigate();
-
-  const handlePlay = () => {
-    navigate("/game");
-  };
-
-  const handleInstructions = () => {
-    alert("Instrucciones del juego:\n\nEn base a tu mano inicial (o sea, tus dos cartas) puedes optar con pedir otra carta o plantarte. Gana el juego el que tenga 21 puntos. PD: Los A's' (ases) valen 1 u 11");
-  };
-
+export default function Home() {
   return (
-    <div className="home-container">
-      <h1 className="home-title">Bienvenido a BlackCa$h. Disfrute su estadía.</h1>
-      <div className="button-group">
-        <button className="btn" onClick={handlePlay}>Jugar</button>
-        <button className="btn" onClick={handleInstructions}>Instrucciones</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-900 to-green-700 text-white p-6">
+      <h1 className="text-4xl font-bold mb-6">♠️ Blackjack React 🎴</h1>
+      <div className="bg-black/40 p-6 rounded-2xl shadow-lg max-w-xl text-center">
+        <h2 className="text-2xl font-semibold mb-4">📜 Instrucciones</h2>
+        <p className="mb-2">• El objetivo es llegar lo más cerca posible a 21 sin pasarse.</p>
+        <p className="mb-2">• Puedes <b>Pedir carta</b> tantas veces quieras.</p>
+        <p className="mb-2">• Si te pasas de 21, pierdes automáticamente.</p>
+        <p className="mb-2">• Si te plantas, la banca juega y gana quien esté más cerca de 21.</p>
+        <p className="mb-2">• Las figuras valen 10. El As vale 1 u 11.</p>
       </div>
+      <Link
+        to="/game"
+        className="mt-6 px-6 py-3 bg-yellow-500 text-black font-bold rounded-2xl shadow-lg hover:bg-yellow-400 transition"
+      >
+        🎮 Jugar ahora
+      </Link>
     </div>
   );
 }
-
-export default Home;

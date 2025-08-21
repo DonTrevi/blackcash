@@ -1,37 +1,8 @@
-/* Fondo de la página */
 .home-container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  background: black;
-  align-items: center;
   justify-content: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: gold;
-}
-
-/* Título principal */
-.home-title {
-  font-size: 3rem;
-  margin-bottom: 40px;
-  color: gold;
-  text-shadow: 2px 2px 5px green;
-}
-
-/* Botones */
-.home-button {
-  background-color: green;
-  border: 2px solid gold;
-  color: gold;
-  font-size: 1.5rem;
-  padding: 15px 30px;
-  margin: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.home-button:hover {
-  background-color: darkgreen;
-  transform: scale(1.05);
+  align-items: center;
+  height: 100vh;
+  text-align: center;
 }
